@@ -40,8 +40,21 @@ pipeline {
 
         stage('Deploy Application') {
             steps {
-                dir('app') {
-                    sh 'echo "Deploying app..."'
+                dir('ansible') {
+                    script {
+                        def appIp = sh(
+                            script: 'cd ../terraform/environments/dev && terraform output -raw app_server_public_ip',
+                            returnStdout: true
+                        ).trim()
+
+                        withCredentials([file(credentialsId: 'aws-private-key', variable: 'PEM_FILE')]) {
+                            ansiblePlaybook(
+                                playbook: 'deploy-app.yml',
+                                inventory: "${appIp},",
+                                extras: "-e docker_user=${DOCKER_HUB_CREDENTIALS_USR} -e docker_pass=${DOCKER_HUB_CREDENTIALS_PSW} --private-key ${PEM_FILE}"
+                            )
+                        }
+                    }
                 }
             }
         }
