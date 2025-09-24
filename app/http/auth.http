@@ -1,0 +1,80 @@
+### LOGIN [USER]
+# @name loginUser
+POST {{apiUrl}}/auth/login
+
+{
+  "email": "{{$dotenv REST_USER_LOGIN}}",
+  "password": "{{$dotenv REST_USER_PASSWORD}}"
+}
+
+### LOGOUT [USER]
+POST {{apiUrl}}/auth/logout
+Authorization: Bearer {{loginUser.response.body.data.accessToken}}
+
+### LOGOUT [USER]
+POST {{apiUrl}}/auth/logout
+Cookie: accessToken={{loginUser.response.body.data.accessToken}}
+
+### REFRESH-TOKEN [USER]
+POST {{apiUrl}}/auth/refresh-token
+
+{
+  "refreshToken": "{{loginUser.response.body.data.refreshToken}}"
+}
+
+### LOGS USER INTO THE SYSTEM THROUGH A APPLE
+POST {{apiUrl}}/auth/platform
+
+{
+  "token": "{{$dotenv REST_APPLE_TOKEN}}",
+  "platform": "apple"
+}
+
+### LOGS USER INTO THE SYSTEM THROUGH A FACEBOOK
+POST {{apiUrl}}/auth/platform
+
+{
+  "token": "{{$dotenv REST_FACEBOOK_TOKEN}}",
+  "platform": "facebook"
+}
+
+
+### LOGS USER INTO THE SYSTEM THROUGH A GOOGLE
+POST {{apiUrl}}/auth/platform
+
+{
+  "token": "{{$dotenv REST_GOOGLE_TOKEN}}",
+  "platform": "github"
+}
+
+### LOGS USER INTO THE SYSTEM THROUGH A GITHUB
+POST {{apiUrl}}/auth/platform
+
+{
+  "token": "{{$dotenv REST_GITHUB_TOKEN}}",
+  "platform": "github"
+}
+
+### FORGOT PASSWORD BY EMAIL
+POST {{apiUrl}}/auth/forgot-password/email
+
+{
+  "email": "{{$dotenv REST_USER_LOGIN}}"
+}
+
+### FORGOT PASSWORD BY EMAIL
+POST {{apiUrl}}/auth/forgot-password/email/reset
+
+{
+  "email": "{{$dotenv REST_USER_LOGIN}}",
+  "code": "b70e0419-9839-4a6e-a799-8580e929e5a9",
+  "password": "{{$dotenv REST_USER_PASSWORD}}"
+}
+
+### SEND VERIFY CODE BY EMAIL
+GET {{apiUrl}}/auth/email/verify
+Authorization: Bearer {{loginUser.response.body.data.accessToken}}
+
+### СONFIRMATION EMAIL
+GET {{apiUrl}}/auth/email/verify/6cd21091-8b3a-4469-9614-6571395bf7d9
+Authorization: Bearer {{loginUser.response.body.data.accessToken}}
