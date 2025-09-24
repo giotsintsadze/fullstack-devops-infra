@@ -2,3 +2,4 @@ all:
   hosts:
     app-server:
       ansible_host: "{{ app_server_ip }}"
+      ansible_user: ec2-user
