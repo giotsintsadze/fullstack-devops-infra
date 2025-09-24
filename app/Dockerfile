@@ -21,7 +21,7 @@ ENV NODE_ENV=${NODE_ENV:-development}
 
 COPY --chown=node:node package*.json ./
 COPY --chown=node:node --from=deps /app/node_modules ./node_modules
-COPY --chown=node:node nodejs-rest-api .
+COPY --chown=node:node . .
 
 RUN NODE_ENV=${NODE_ENV} npm run build:api
 
