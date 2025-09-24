@@ -7,6 +7,25 @@ resource "aws_instance" "public_instance" {
   associate_public_ip_address = true
   key_name                    = var.key_name
 
+  user_data = <<-EOF
+    #!/bin/bash
+    yum update -y
+    amazon-linux-extras install docker -y
+    systemctl start docker
+    systemctl enable docker
+  
+    usermod -aG docker ec2-user
+  
+    docker pull gtsintsadze1/nodejs-rest-api:latest
+  
+    if [ $(docker ps -a -q -f name=nodeapp) ]; then
+      docker stop nodeapp
+      docker rm nodeapp
+    fi
+  
+    docker run -d --name nodeapp -p 80:3000 --restart unless-stopped gtsintsadze1/nodejs-rest-api:latest
+  EOF
+
   tags = {
     Name = "public-instance"
   }
