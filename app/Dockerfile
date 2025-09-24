@@ -23,7 +23,6 @@ COPY --chown=node:node package*.json ./
 COPY --chown=node:node --from=deps /app/node_modules ./node_modules
 COPY --chown=node:node . .
 
-RUN NODE_ENV=${NODE_ENV} npm run build:api
 
 USER node
 
