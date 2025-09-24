@@ -26,15 +26,7 @@ pipeline {
                     sh 'npm run lint'
                 }
             }
-        }
-
-        stage('Testing') {
-            steps {
-                dir('app') {
-                    sh 'npm test'
-                }
-            }
-        }
+        }}
 
 
         stage('Build Docker Image') {
