@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "dev-terraform-state-bucket-test1"
+    bucket = "learn-terraform-state-bucket-test1"
     key    = "dev/terraform.tfstate"
-    region = var.base_region
+    region = "eu-central-1"
   }
 }
