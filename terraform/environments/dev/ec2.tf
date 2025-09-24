@@ -16,14 +16,14 @@ resource "aws_instance" "public_instance" {
   
     usermod -aG docker ec2-user
   
-    docker pull gtsintsadze1/nodejs-rest-api:latest
+    docker pull gtsintsadze/nodejs-rest-api:latest
   
     if [ $(docker ps -a -q -f name=nodeapp) ]; then
       docker stop nodeapp
       docker rm nodeapp
     fi
   
-    docker run -d --name nodeapp -p 80:3000 --restart unless-stopped gtsintsadze1/nodejs-rest-api:latest
+    docker run -d --name nodeapp -p 80:3000 --restart unless-stopped gtsintsadze/nodejs-rest-api:latest
   EOF
 
   tags = {
