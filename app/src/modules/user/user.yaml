@@ -1,0 +1,104 @@
+components:
+  requestBodies:
+    UserChangePasswordRequest:
+      description: Change password for a user
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserChangePasswordSchema'
+
+    UserCreateRequest:
+      description: Create a user
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserCreateSchema'
+
+    UserUpdateRequest:
+      description: Update a user
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserUpdateSchema'
+
+  responses:
+    UserResponse:
+      description: Successful operation, returns the full user data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                $ref: '#/components/schemas/FullUser'
+
+  schemas:
+    UserChangePasswordSchema:
+      type: object
+      required:
+        - newPassword
+        - oldPassword
+      properties:
+        newPassword:
+          $ref: '#/components/schemas/PasswordValue'
+        oldPassword:
+          $ref: '#/components/schemas/PasswordValue'
+
+    UserCreateSchema:
+      type: object
+      required:
+        - email
+        - password
+        - profile
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            password:
+              $ref: '#/components/schemas/PasswordValue'
+
+    UserUpdateSchema:
+      type: object
+      required:
+        - profile
+      properties:
+        profile:
+          $ref: '#/components/schemas/Profile'
+
+    Profile:
+      type: object
+      properties:
+        firstName:
+          type: string
+          maxLength: 100
+          example: 'Dmitry'
+        lastName:
+          type: string
+          maxLength: 100
+          example: 'Neverovski'
+
+    User:
+      type: object
+      properties:
+        email:
+          $ref: '#/components/schemas/EmailValue'
+        profile:
+          $ref: '#/components/schemas/Profile'
+
+    FullUser:
+      allOf:
+        - type: object
+          properties:
+            createdAt:
+              $ref: '#/components/schemas/DateTimeValue'
+            id:
+              $ref: '#/components/schemas/IdValue'
+            isConfirmedEmail:
+              type: boolean
+              example: true
+            role:
+              $ref: '#/components/schemas/RoleValue'
+        - $ref: '#/components/schemas/User'

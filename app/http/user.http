@@ -1,0 +1,39 @@
+### RETURN A CURRENT USER [USER]
+GET {{apiUrl}}/users/current
+Authorization: Bearer {{dotenv REST_USER_ACCESS_TOKEN}}
+
+### CREATE A USER [USER]
+POST {{apiUrl}}/users
+
+{
+  "email": "{{$dotenv REST_USER_LOGIN}}",
+  "password": "{{$dotenv REST_USER_PASSWORD}}",
+  "profile": {
+    "firstName": "D.",
+    "lastName": "N."
+  }
+}
+
+### UPDATE A CURRENT USER [USER]
+PUT {{apiUrl}}/users/current
+Authorization: Bearer {{dotenv REST_USER_ACCESS_TOKEN}}
+
+{
+  "profile": {
+    "firstName": "Dmitry",
+    "lastName": "Neverovski"
+  }
+}
+
+### CHANGE PASSWORD FOR A CURRENT USER [USER]
+POST {{apiUrl}}/users/current/change-password
+Authorization: Bearer {{dotenv REST_USER_ACCESS_TOKEN}}
+
+{
+  "oldPassword": "{{$dotenv REST_USER_PASSWORD}}",
+  "newPassword": "87654321"
+}
+
+### DELETE A CURRENT USER [USER]
+DELETE {{apiUrl}}/users/current
+Authorization: Bearer {{dotenv REST_USER_ACCESS_TOKEN}}
