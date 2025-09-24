@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-         docker {
-            image 'hashicorp/terraform:1.6.0'
-        }
-    }
+    agent any
 
     environment {
         AWS_ACCESS_KEY_ID     = credentials('aws-jenkins-creds')
